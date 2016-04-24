@@ -1,0 +1,79 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Sample</title>
+   	<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script>
+      window.jQuery = window.$ = require('./js/jquery-2.2.1.min.js')
+    </script>
+    <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <link rel="stylesheet" href="http://jqueryui.com/resources/demos/style.css">
+    
+   	<style>
+      body { font-size: 62.5%; }
+      label, input { display:block; }
+      input.text { margin-bottom:12px; width:95%; padding: .4em; }
+      fieldset { padding:0; border:0; margin-top:25px; }
+      h1 { font-size: 1.2em; margin: .6em 0; }
+      .ui-dialog .ui-state-error { padding: .3em; }
+      .validateTips { border: 1px solid transparent; padding: 0.3em; }
+  	</style>
+
+    <script>
+      $(function(){
+        var dialog,form;
+
+        function addBlock() {
+          
+        }
+
+    		dialog = $("#dialog-form").dialog({
+          autoOpen: false,
+          height: 300,
+          width: 350,
+          modal: true,
+          buttons: {
+            "Create an cheat": addBlock,
+            Cancel: function() {
+              dialog.dialog( "close" );
+            }
+          },
+          close: function() {
+            form[0].reset();
+            // allFields.removeClass( "ui-state-error" );
+          }
+        });
+
+        form = $("#dialog-form").find("form").on("submit", function(event) {
+          event.preventDefault();
+          addBlock();
+        });
+
+        $("#create-user").click(function() {
+          dialog.dialog('open');
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div id="dialog-form" title="Create new user">
+      <p class="validateTips">All form fields are required.</p>
+      
+      <form>
+        <fieldset>
+          <label for="explanation">説明</label>
+          <input type="text" name="explanation" id="explanation" class="text ui-widget-content">
+          <label for="code">コード</label>
+          <textarea name="code" id="code" rows="1" cols="41" class="text ui-widget-content"></textarea>
+    			<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+        </fieldset>
+      </form>
+    </div>
+    <button id="create-user">Crete new user</button>
+  </body>  
+  <script src="js/autosize.min.js"></script>
+  <script>
+    autosize(document.querySelectorAll('textarea'))
+  </script>
+
+</html>
