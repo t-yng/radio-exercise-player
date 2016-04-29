@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>時間設定</title>
+    <link rel="stylesheet" href="../css/timer-setting.css">
+    
+  </head>  
+  
+  <body>
+    <div class="wrapper">
+      <div class="centerBox">
+        <dl>
+          <dt><input type="time" id="timer" value="00:00:00" step="1"></dt>
+          <dt><input type="button" id="save" value="設定"></dt>
+        </dl>
+      </div>
+    </div>
+    
+    <script>
+      
+      var ipcRenderer = require('electron').ipcRenderer
+
+      var button = document.getElementById('save')
+      button.addEventListener('click', save)
+      
+      function save() {
+        var time = document.getElementById('timer').value
+        
+        array = time.split(":")
+        if(array.length == 2) array.push("00")
+        time = array.join(":")
+        
+        ipcRenderer.send('setting-start-time', time)
+        alert(`${time} で起動時間を設定しました。`)
+      }
+      
+      function setTimer() {
+        ipcRenderer.on('get-start-time-reply', (event, time) => {
+          document.getElementById('timer').value = time
+        })
+        ipcRenderer.send('get-start-time')
+      }
+
+      // タイマーの時間を設定
+      setTimer()
+      
+    </script>
+
+  </body>
+
+</html>
